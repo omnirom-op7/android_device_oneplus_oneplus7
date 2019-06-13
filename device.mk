@@ -153,7 +153,9 @@ PRODUCT_PACKAGES += \
 
 # Camera
 PRODUCT_PACKAGES += \
-    SnapdragonCamera2
+    OnePlusCamera \
+    OnePlusCameraService \
+    OnePlusGallery
 
 # ANT+
 PRODUCT_PACKAGES += \
