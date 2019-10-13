@@ -327,8 +327,8 @@ ro.location.osnlp.region.package=
 ro.camera.notify_nfc=0
 ro.boot.project_name=18821
 ro.vendor.boot.project_name=18821
-persist.vendor.sys.fp.fod.location.X_Y=605,2613
-persist.vendor.sys.fp.fod.size.width_height=230,230
+persist.vendor.sys.fp.fod.location.X_Y=445,1967
+persist.vendor.sys.fp.fod.size.width_height=190,190
 persist.vendor.cne.feature=1
 ro.hardware.lights=oneplus7
 
