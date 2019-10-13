@@ -60,8 +60,6 @@ import com.android.internal.util.omni.OmniUtils;
 import org.omnirom.omnilib.utils.OmniVibe;
 import com.android.internal.statusbar.IStatusBarService;
 
-import org.omnirom.device.CameraMotorController;
-
 import vendor.oneplus.camera.CameraHIDL.V1_0.IOnePlusCameraProvider;
 
 public class KeyHandler implements DeviceKeyHandler {
@@ -97,8 +95,6 @@ public class KeyHandler implements DeviceKeyHandler {
     private static final String DOZE_INTENT = "com.android.systemui.doze.pulse";
     private static final int HANDWAVE_MAX_DELTA_MS = 1000;
     private static final int POCKET_MIN_DELTA_MS = 5000;
-
-    private static final boolean sIsOnePlus7pro = android.os.Build.PRODUCT.equals("OnePlus7pro");
 
     public static final String CLIENT_PACKAGE_NAME = "com.oneplus.camera";
     public static final String CLIENT_PACKAGE_PATH = "/data/vendor/omni/client_package_name";
@@ -445,10 +441,6 @@ public class KeyHandler implements DeviceKeyHandler {
             mClientObserver = new ClientPackageNameObserver(CLIENT_PACKAGE_PATH);
             mClientObserver.startWatching();
         }
-        if (sIsOnePlus7pro) {
-            //mMotorHandler.removeCallbacksAndMessages(mCameraMotorSwitch);
-            CameraMotorController.toggleCameraSwitch(true);
-        }
     }
 
     private void updateDoubleTapToWake() {
@@ -473,9 +465,6 @@ public class KeyHandler implements DeviceKeyHandler {
         if (mClientObserver != null) {
             mClientObserver.stopWatching();
             mClientObserver = null;
-        }
-        if (sIsOnePlus7pro) {
-            CameraMotorController.toggleCameraSwitch(false);
         }
     }
 
