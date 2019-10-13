@@ -33,15 +33,15 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/aosp_base_telephony.mk)
 TARGET_BOOTANIMATION_SIZE := 1080p
 AB_OTA_UPDATER := true
 
-DEVICE_PACKAGE_OVERLAYS += device/oneplus/oneplus7pro/overlay/common
-DEVICE_PACKAGE_OVERLAYS += device/oneplus/oneplus7pro/overlay/device
+DEVICE_PACKAGE_OVERLAYS += device/oneplus/oneplus7/overlay/common
+DEVICE_PACKAGE_OVERLAYS += device/oneplus/oneplus7/overlay/device
 DEVICE_PACKAGE_OVERLAYS += vendor/omni/overlay/CarrierConfig
 
 # Inherit from our custom product configuration
 $(call inherit-product, vendor/omni/config/common.mk)
 
 # Inherit from hardware-specific part of the product configuration
-$(call inherit-product, device/oneplus/oneplus7pro/device.mk)
+$(call inherit-product, device/oneplus/oneplus7/device.mk)
 
 ALLOW_MISSING_DEPENDENCIES := true
 
@@ -49,17 +49,17 @@ PRODUCT_PACKAGES += \
     android.hardware.biometrics.fingerprint@2.1-service
 
 # Discard inherited values and use our own instead.
-PRODUCT_NAME := omni_oneplus7pro
-PRODUCT_DEVICE := oneplus7pro
+PRODUCT_NAME := omni_oneplus7
+PRODUCT_DEVICE := oneplus7
 PRODUCT_BRAND := OnePlus
 PRODUCT_MANUFACTURER := OnePlus
-PRODUCT_MODEL := GM1913 
+PRODUCT_MODEL := GM1900
 
-PRODUCT_BUILD_PROP_OVERRIDES += TARGET_DEVICE=OnePlus7pro PRODUCT_NAME=OnePlus7pro
+PRODUCT_BUILD_PROP_OVERRIDES += TARGET_DEVICE=OnePlus7 PRODUCT_NAME=OnePlus7
 
 #PRODUCT_BUILD_PROP_OVERRIDES += \
-    BUILD_FINGERPRINT=OnePlus/OnePlus7Pro_EEA/OnePlus7Pro:9/PKQ1.190110.001/1907122210:user/release-keys \
-    PRIVATE_BUILD_DESC="OnePlus7Pro-user 9 PKQ1.190110.001 1907122210 release-keys"
+    BUILD_FINGERPRINT=OnePlus/OnePlus7/OnePlus7:9/PKQ1.190110.001/1907280700:user/release-keys \
+    PRIVATE_BUILD_DESC="OnePlus7-user 9 PKQ1.190110.001 1907280700 release-keys"
 
 PLATFORM_SECURITY_PATCH_OVERRIDE := 2019-08-01
 
@@ -68,5 +68,5 @@ TARGET_VENDOR := oneplus
 #PRODUCT_SYSTEM_PROPERTY_BLACKLIST += \
     ro.product.model
 
-$(call inherit-product, vendor/oneplus/oneplus7pro/device-vendor.mk)
+$(call inherit-product, vendor/oneplus/oneplus7/device-vendor.mk)
 

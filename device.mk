@@ -32,7 +32,7 @@ TARGET_SUPPORTS_32_BIT_APPS := true
 TARGET_SUPPORTS_64_BIT_APPS := true
 
 PRODUCT_PACKAGES += \
-    libinit_oneplus7pro
+    libinit_oneplus7
 
 # SP-NDK:
 PRODUCT_PACKAGES += \
@@ -97,8 +97,8 @@ PRODUCT_COPY_FILES += \
 
 # Prebuilt
 PRODUCT_COPY_FILES += \
-    $(call find-copy-subdir-files,*,device/oneplus/oneplus7pro/prebuilt/system,system) \
-    $(call find-copy-subdir-files,*,device/oneplus/oneplus7pro/prebuilt/root,root)
+    $(call find-copy-subdir-files,*,device/oneplus/oneplus7/prebuilt/system,system) \
+    $(call find-copy-subdir-files,*,device/oneplus/oneplus7/prebuilt/root,root)
 
 
 PRODUCT_AAPT_CONFIG := xxhdpi
@@ -111,7 +111,7 @@ PRODUCT_PACKAGES += \
 
 # Lights
 PRODUCT_PACKAGES += \
-    lights.oneplus7pro
+    lights.oneplus7
 
 PRODUCT_PACKAGES += \
     android.hardware.light-V2.0-java \
@@ -219,7 +219,7 @@ PRODUCT_COPY_FILES += \
     frameworks/av/media/libstagefright/data/media_codecs_google_telephony.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/media_codecs_google_telephony.xml \
     frameworks/av/media/libstagefright/data/media_codecs_google_video.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/media_codecs_google_video.xml
 
-PRODUCT_PACKAGES += android.hardware.health@2.0-service.oneplus7pro
+PRODUCT_PACKAGES += android.hardware.health@2.0-service.oneplus7
 DEVICE_FRAMEWORK_MANIFEST_FILE += \
     system/libhidl/vintfdata/manifest_healthd_exclude.xml
 
@@ -228,7 +228,7 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_PACKAGES += \
     vendor.qti.hardware.wifi@1.0 \
-    android.hardware.vibrator@1.2-service.oneplus7pro
+    android.hardware.vibrator@1.2-service.oneplus7
 
 # Temporary handling
 #
@@ -236,8 +236,8 @@ PRODUCT_PACKAGES += \
 # does not exist as they are mutually exclusive.  Once all target's android_filesystem_config.h
 # have been removed, TARGET_FS_CONFIG_GEN should be made unconditional.
 DEVICE_CONFIG_DIR := $(dir $(firstword $(subst ]],, $(word 2, $(subst [[, ,$(_node_import_context))))))
-ifeq ($(wildcard device/oneplus/oneplus7pro/android_filesystem_config.h),)
-  TARGET_FS_CONFIG_GEN := device/oneplus/oneplus7pro/config.fs
+ifeq ($(wildcard device/oneplus/oneplus7/android_filesystem_config.h),)
+  TARGET_FS_CONFIG_GEN := device/oneplus/oneplus7/config.fs
 else
   $(warning **********)
   $(warning TODO: Need to replace legacy $(DEVICE_CONFIG_DIR)android_filesystem_config.h with config.fs)

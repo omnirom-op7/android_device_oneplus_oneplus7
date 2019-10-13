@@ -18,9 +18,9 @@
 # device-specific aspects (drivers) with a device-agnostic
 # product configuration (apps).
 #
-BOARD_PATH := device/oneplus/oneplus7pro
+BOARD_PATH := device/oneplus/oneplus7
 
-TARGET_INIT_VENDOR_LIB := libinit_oneplus7pro
+TARGET_INIT_VENDOR_LIB := libinit_oneplus7
 TARGET_USE_SDCLANG := true
 PRODUCT_FULL_TREBLE := true
 BOARD_VNDK_VERSION := current
@@ -46,9 +46,8 @@ BOARD_BUILD_SYSTEM_ROOT_IMAGE := true
 BOARD_USES_RECOVERY_AS_BOOT := true
 
 TARGET_NO_BOOTLOADER := true
-ifeq ($(TARGET_DEVICE),oneplus7pro)
-TARGET_OTA_ASSERT_DEVICE := OnePlus7Pro
-endif
+TARGET_OTA_ASSERT_DEVICE := OnePlus7
+
 TARGET_KERNEL_VERSION := 4.14
 TARGET_KERNEL_CLANG_COMPILE := true
 TARGET_KERNEL_CLANG_VERSION := 4.0.2
@@ -94,10 +93,7 @@ TARGET_KERNEL_HEADER_ARCH := arm64
 TARGET_KERNEL_CROSS_COMPILE_PREFIX := aarch64-linux-android-
 BOARD_KERNEL_IMAGE_NAME := Image-dtb
 TARGET_KERNEL_SOURCE := kernel/oneplus/sm8150
-ifeq ($(TARGET_DEVICE),oneplus7pro)
-TARGET_KERNEL_CONFIG := vendor/omni_oneplus7pro_defconfig
-endif
-BOARD_KERNEL_SEPARATED_DTBO := true
+TARGET_KERNEL_CONFIG := vendor/omni_oneplus7_defconfig
 
 # partitions
 BOARD_VENDORIMAGE_PARTITION_SIZE := 1073741824
@@ -203,11 +199,7 @@ BOARD_SUPPRESS_SECURE_ERASE := true
 BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_BLUETOOTH_QCOM := true
 QCOM_BT_USE_BTNV := true
-
-#SEPERATE FROM OP6T
-ifeq ($(TARGET_DEVICE),oneplus7pro)
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(BOARD_PATH)/bluetooth
-endif
 
 # Wifi
 TARGET_USES_QCOM_WCNSS_QMI       := false
@@ -271,9 +263,7 @@ TARGET_KERNEL_HAVE_EXFAT := true
 #TARGET_LDPRELOAD := libNimsWrap.so
 BOARD_USES_QCNE := true
 
-ifeq ($(TARGET_DEVICE),oneplus7pro)
 TARGET_SYSTEM_PROP := $(BOARD_PATH)/system.prop
-endif
 BOARD_PROPERTY_OVERRIDES_SPLIT_ENABLED := true
 
 # selinux

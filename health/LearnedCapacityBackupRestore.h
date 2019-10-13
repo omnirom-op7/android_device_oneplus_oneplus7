@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef DEVICE_ONEPLUS_ONEPLUS7PRO_HEALTH_LEARNEDCAPACITYBACKUPRESTORE_H
-#define DEVICE_ONEPLUS_ONEPLUS7PRO_HEALTH_LEARNEDCAPACITYBACKUPRESTORE_H
+#ifndef DEVICE_ONEPLUS_ONEPLUS7_HEALTH_LEARNEDCAPACITYBACKUPRESTORE_H
+#define DEVICE_ONEPLUS_ONEPLUS7_HEALTH_LEARNEDCAPACITYBACKUPRESTORE_H
 #include <android-base/file.h>
 #include <android-base/logging.h>
 #include <android-base/strings.h>
 #include <string>
 namespace device {
 namespace oneplus {
-namespace oneplus7pro {
+namespace oneplus7 {
 namespace health {
 class LearnedCapacityBackupRestore {
   public:
@@ -38,8 +38,8 @@ class LearnedCapacityBackupRestore {
     void UpdateAndSave();
 };
 }  // namespace health
-}  // namespace oneplus7pro
+}  // namespace oneplus7
 }  // namespace oneplus
 }  // namespace device
-#endif  // #ifndef DEVICE_GOOGLE_WAHOO_HEALTH_LEARNEDCAPACITYBACKUPRESTORE_H
+#endif  // #ifndef DEVICE_ONEPLUS_ONEPLUS7_HEALTH_LEARNEDCAPACITYBACKUPRESTORE_H
 
