@@ -53,6 +53,8 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.HapticFeedbackConstants;
 
+import java.util.Locale;
+
 import com.android.internal.util.omni.DeviceKeyHandler;
 import com.android.internal.util.omni.PackageUtils;
 import com.android.internal.util.ArrayUtils;
@@ -98,6 +100,9 @@ public class KeyHandler implements DeviceKeyHandler {
 
     public static final String CLIENT_PACKAGE_NAME = "com.oneplus.camera";
     public static final String CLIENT_PACKAGE_PATH = "/data/vendor/omni/client_package_name";
+
+    private static final String BLOCK_CALIBRATION_PATH = "/sys/bus/platform/devices/soc:tri_state_key/hall_data_calib";
+    private static final String VENDOR_PERSIST_CALIBRATION_PATH = "/mnt/vendor/persist/engineermode/tri_state_hall_data";
 
     private static final int[] sSupportedGestures6 = new int[]{
         GESTURE_II_SCANCODE,
@@ -297,6 +302,24 @@ public class KeyHandler implements DeviceKeyHandler {
         systemStateFilter.addAction(Intent.ACTION_SCREEN_OFF);
         systemStateFilter.addAction(Intent.ACTION_USER_SWITCHED);
         mContext.registerReceiver(mSystemStateReceiver, systemStateFilter);
+
+        String hallData = Utils.readLine(VENDOR_PERSIST_CALIBRATION_PATH);
+        if (hallData != null) {
+            try {
+                String[] calibData = hallData.split(",|;");
+                if (calibData != null) {
+                    if (calibData.length == 6) {
+                        String newCalibrationData = String.format(Locale.US, "%s,%s,%s,%s,%s,%s", new Object[]{calibData[0], calibData[1], calibData[2], calibData[3], calibData[4], calibData[5]});
+                        if (newCalibrationData != null) {
+                            Utils.writeValue(BLOCK_CALIBRATION_PATH, newCalibrationData);
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                Log.e(TAG, "failed to init hall data: " + e.getMessage());
+            }
+        }
+
         (new UEventObserver() {
             @Override
             public void onUEvent(UEventObserver.UEvent event) {
