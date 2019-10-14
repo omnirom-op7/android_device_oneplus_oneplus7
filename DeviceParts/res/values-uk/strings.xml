@@ -14,4 +14,96 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<resources></resources>
+<resources>
+    <string name="app_name">Oneplus 7</string>
+    <string name="category_gestures_title">Жести пристрою</string>
+    <string name="category_vibrator">Вібрація</string>
+    <string name="vib_strength_title_head">Сила</string>
+    <string name="vib_strength_summary_head">Налаштуйте силу вібрації</string>
+    <string name="vib_test">Тест</string>
+    <string name="advanced_settings">Розширені налаштування</string>
+    <string name="category_slider">Повзунок</string>
+    <string name="slider_mode_title">Режим повзунка</string>
+    <string name="buttons_title">Кнопки</string>
+    <string name="swap_back_recents_summary"></string>
+    <string name="swap_back_recents_title">Поміняти місцями кнопки \"Назад\" і \"Нещодавні\"</string>
+    <string name="graphics_title">Графіка</string>
+    <string name="srgb_mode_summary"></string>
+    <string name="srgb_mode_title">Режим sRGB</string>
+    <string name="dcd_mode_title">DC Dimming</string>
+    <string name="dcd_mode_summary">Зменшення мерехтіння екрана при низькій яскравості</string>
+    <string name="hbm_mode_summary"></string>
+    <string name="hbm_mode_title">Режим підвищеної яскравості</string>
+    <string name="wide_mode_title">Користувальницький режим P3</string>
+    <string name="oneplus_mode_title">Режим OnePlus</string>
+    <string name="proxi_summary_head">Перевіряти датчик наближення при використанні жестів і сканера відбитків</string>
+    <string name="proxi_title_head">Перевірка датчика наближення</string>
+    <string name="off_screen_gesture_feedback_summary_head">Увімкнути тактильний зворотній зв\'язок для жестів</string>
+    <string name="off_screen_gesture_feedback_title_head">Тактильний зворотний зв\'язок</string>
+    <string name="slider_mode_off">Вимкнено</string>
+    <string name="slider_mode_flashlight">Ліхтарик</string>
+    <string name="slider_mode_vibrate">Вібрація</string>
+    <string name="slider_mode_silent">Без звуку</string>
+    <string name="slider_mode_total_silence">Повна тиша</string>
+    <string name="slider_mode_priority">Тільки пріоритетні</string>
+    <string name="slider_mode_alarm">Тільки будильники</string>
+    <string name="slider_mode_zen">Не турбувати</string>
+    <string name="slider_mode_title_top">Верхня позиція</string>
+    <string name="slider_mode_title_center">Середня позиція</string>
+    <string name="slider_mode_title_bottom">Нижня позиція</string>
+    <string name="dci_mode_summary"></string>
+    <string name="dci_mode_title">Режим широкої колірної гами</string>
+    <string name="Night_mode_summary"></string>
+    <string name="Night_mode_title">Нічний режим</string>
+    <string name="otg_switch_summary">Увімкнення/Вимкнення підтримки USB-OTG</string>
+    <string name="otg_switch_title">Підтримка USB-OTG</string>
+
+    <string name="audio_title">Аудіо</string>
+    <string name="dolby_title">Dolby Atmos</string>
+
+    <string name="choose_app">Вибір додатку</string>
+    <string name="category_double_swipe_gesture">Жест II</string>
+    <string name="offscreen_gesture_title">Жести на вимкненому екрані</string>
+    <string name="category_circle_gesture">Жест O</string>
+    <string name="category_down_arrow_gesture">Жест A</string>
+    <string name="category_up_arrow_gesture">Жест V</string>
+    <string name="category_left_arrow_gesture">Жест &lt;</string>
+    <string name="category_right_arrow_gesture">Жест &gt;</string>
+    <string name="category_gestures_summary">Налаштування дій жестів</string>
+    <string name="torch_entry">Ліхтарик</string>
+    <string name="disabled_entry">Вимкнено</string>
+    <string name="camera_entry">Камера</string>
+    <string name="music_play_entry">Відтворення/Зупинення музики</string>
+    <string name="music_prev_entry">Попередній трек</string>
+    <string name="music_next_entry">Наступний трек</string>
+    <string name="volume_up">Збільшити гучність</string>
+    <string name="volume_down">Зменшити гучність</string>
+    <string name="browse_scroll_up">Прокрутка вгору</string>
+    <string name="browse_scroll_down">Прокрутка вниз</string>
+    <string name="navigate_back">Назад</string>
+    <string name="navigate_home">Додому</string>
+    <string name="navigate_recent">Нещодавні</string>
+    <string name="not_ready_summary">Обробка...</string>
+    <string name="resolve_failed_summary">Не вдалося обробити додаток</string>
+    <string name="category_down_swipe_gesture">Провести вниз</string>
+    <string name="category_up_swipe_gesture">Провести вгору</string>
+    <string name="category_left_swipe_gesture">Провести ліворуч</string>
+    <string name="category_right_swipe_gesture">Провести праворуч</string>
+
+    <string name="doze_category_title">Ативація екрана</string>
+    <string name="doze_category_summary">Ввімкнення екрану при отриманні повідомлень</string>
+    <string name="wave_check_summary">Показувати повідомлення при помаху рукою</string>
+    <string name="wave_check_title">Помах рукою</string>
+    <string name="tilt_check_summary">Показувати повідомлення при піднятті пристрою</string>
+    <string name="tilt_check_title">Підняття</string>
+    <string name="pocket_check_summary">Показувати повідомлення при вийманні з кишені</string>
+    <string name="pocket_check_title">Кишеня</string>
+    <string name="ambient_display_enable">Активація екрана має бути увімкнена у налаштуваннях екрана</string>
+
+    <string name="panel_category_title">Режими панелі</string>
+    <string name="panel_category_summary">Режими кольорокорекції панелі</string>
+    <string name="off_mode_title">Вимкнено</string>
+    <string name="tile_panel_mode">Режими панелі</string>
+    <string name="tile_hbm_mode">Режим підвищеної яскравості</string>
+    <string name="wake_entry">Пробудження</string>
+</resources>
