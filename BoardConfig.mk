@@ -79,13 +79,14 @@ TARGET_COMPILE_WITH_MSM_KERNEL := true
 ENABLE_CPUSETS := true
 ENABLE_SCHEDBOOST := true
 
+BOARD_KERNEL_BASE := 0x00000000
 BOARD_KERNEL_CMDLINE := androidboot.hardware=qcom androidboot.console=ttyMSM0 androidboot.memcg=1 lpm_levels.sleep_disabled=1 video=vfb:640x400,bpp=32,memsize=3072000 msm_rtb.filter=0x237 service_locator.enable=1 swiotlb=2048 firmware_class.path=/vendor/firmware_mnt/image loop.max_part=7 androidboot.usbcontroller=a600000.dwc3
 #BOARD_KERNEL_CMDLINE += androidboot.avb_version=1.0 androidboot.vbmeta.avb_version=1.0
 #BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
-BOARD_KERNEL_BASE := 0x00000000
 BOARD_KERNEL_PAGESIZE := 4096
+BOARD_KERNEL_SEPARATED_DTBO := true
 BOARD_KERNEL_TAGS_OFFSET := 0x01E00000
-BOARD_RAMDISK_OFFSET     := 0x02000000
+BOARD_RAMDISK_OFFSET := 0x02000000
 BOARD_ROOT_EXTRA_FOLDERS := odm op1 op2
 BOARD_ROOT_EXTRA_SYMLINKS := /vendor/dsp:/dsp /vendor/firmware_mnt:/firmware /vendor/bt_firmware:/bt_firmware /mnt/vendor/persist:/persist
 TARGET_KERNEL_ARCH := arm64
@@ -141,7 +142,6 @@ SF_VSYNC_EVENT_PHASE_OFFSET_NS := 6000000
 BOARD_FLASH_BLOCK_SIZE := 512
 
 #Audio
-USE_XML_AUDIO_POLICY_CONF := 1
 AUDIO_FEATURE_ENABLED_USB_TUNNEL_AUDIO := true
 AUDIO_FEATURE_ENABLED_ALAC_OFFLOAD := true
 AUDIO_FEATURE_ENABLED_APE_OFFLOAD := true
@@ -179,6 +179,7 @@ BOARD_USES_ALSA_AUDIO := true
 BOARD_USES_GENERIC_AUDIO := true
 TARGET_USES_QCOM_MM_AUDIO := true
 USE_CUSTOM_AUDIO_POLICY := 1
+USE_XML_AUDIO_POLICY_CONF := 1
 AUDIO_FEATURE_ENABLED_RECORD_PLAY_CONCURRENCY := true
 
 #effects
@@ -212,9 +213,9 @@ BOARD_HOSTAPD_PRIVATE_LIB        := lib_driver_cmd_$(BOARD_WLAN_DEVICE)
 WIFI_DRIVER_FW_PATH_STA          := "sta"
 WIFI_DRIVER_FW_PATH_AP           := "ap"
 WIFI_DRIVER_FW_PATH_P2P          := "p2p"
-#WIFI_DRIVER_MODULE_PATH          := "/system/lib/modules/wlan.ko"
-#WIFI_DRIVER_MODULE_NAME          := "wlan"
-#WIFI_DRIVER_MODULE_ARG           := ""
+#WIFI_DRIVER_MODULE_PATH         := "/system/lib/modules/wlan.ko"
+#WIFI_DRIVER_MODULE_NAME         := "wlan"
+#WIFI_DRIVER_MODULE_ARG          := ""
 WIFI_DRIVER_STATE_CTRL_PARAM     := "/dev/wlan"
 WIFI_DRIVER_STATE_ON             := "ON"
 WIFI_DRIVER_STATE_OFF            := "OFF"
@@ -222,7 +223,7 @@ WIFI_DRIVER_BUILT                := qca_cld3
 WIFI_DRIVER_DEFAULT              := qca_cld3
 WIFI_HIDL_FEATURE_AWARE          := true
 WIFI_HIDL_FEATURE_DUAL_INTERFACE := true
-#WIFI_DRIVER_LOAD_DELAY           := true
+#WIFI_DRIVER_LOAD_DELAY          := true
 
 CONFIG_ACS := true
 CONFIG_IEEE80211AC := true
