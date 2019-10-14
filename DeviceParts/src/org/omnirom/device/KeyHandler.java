@@ -19,6 +19,7 @@ package org.omnirom.device;
 
 import static android.provider.Settings.Global.ZEN_MODE_OFF;
 import static android.provider.Settings.Global.ZEN_MODE_IMPORTANT_INTERRUPTIONS;
+import static android.provider.Settings.Global.ZEN_MODE_NO_INTERRUPTIONS;
 
 import android.app.ActivityManagerNative;
 import android.app.NotificationManager;
@@ -529,6 +530,10 @@ public class KeyHandler implements DeviceKeyHandler {
             mAudioManager.setRingerModeInternal(AudioManager.RINGER_MODE_NORMAL);
             disableTorch();
         } else if (action == 4) {
+            mNoMan.setZenMode(ZEN_MODE_NO_INTERRUPTIONS, null, TAG);
+            mAudioManager.setRingerModeInternal(AudioManager.RINGER_MODE_NORMAL);
+            disableTorch();
+        } else if (action == 5) {
             mNoMan.setZenMode(ZEN_MODE_OFF, null, TAG);
             mAudioManager.setRingerModeInternal(AudioManager.RINGER_MODE_NORMAL);
             if (mProxyIsNear && mUseProxiCheck) {
