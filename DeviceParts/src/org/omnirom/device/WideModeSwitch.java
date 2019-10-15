@@ -28,7 +28,7 @@ import org.omnirom.device.DeviceSettings;
 
 public class WideModeSwitch {
 
-    private static final String FILE = "/sys/class/drm/card0-DSI-1/native_display_customer_p3_mode";
+    private static final String FILE = "/sys/class/drm/card0-DSI-1/native_display_wide_color_mode";
 
     public static final String SETTINGS_KEY = DeviceSettings.KEY_SETTINGS_PREFIX + DeviceSettings.KEY_WIDE_SWITCH;
 

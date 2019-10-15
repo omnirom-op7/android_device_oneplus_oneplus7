@@ -34,8 +34,7 @@
     <string name="dcd_mode_summary">Зменшення мерехтіння екрана при низькій яскравості</string>
     <string name="hbm_mode_summary"></string>
     <string name="hbm_mode_title">Режим підвищеної яскравості</string>
-    <string name="wide_mode_title">Користувальницький режим P3</string>
-    <string name="oneplus_mode_title">Режим OnePlus</string>
+    <string name="wide_mode_title">Режим P3</string>
     <string name="proxi_summary_head">Перевіряти датчик наближення при використанні жестів і сканера відбитків</string>
     <string name="proxi_title_head">Перевірка датчика наближення</string>
     <string name="off_screen_gesture_feedback_summary_head">Увімкнути тактильний зворотній зв\'язок для жестів</string>
