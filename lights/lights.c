@@ -38,46 +38,8 @@
 static pthread_once_t g_init = PTHREAD_ONCE_INIT;
 static pthread_mutex_t g_lock = PTHREAD_MUTEX_INITIALIZER;
 
-static struct light_state_t g_attention;
-static struct light_state_t g_notification;
-static struct light_state_t g_battery;
-
-#define BUTTON_BRIGHTNESS_FILE "/sys/class/leds/button-backlight/brightness"
-
 #define LCD_BRIGHTNESS_FILE "/sys/class/backlight/panel0-backlight/brightness"
 #define LCD_MAX_BRIGHTNESS_FILE "/sys/class/backlight/panel0-backlight/max_brightness"
-
-#define RED_LED_BRIGHTNESS_FILE "/sys/class/leds/red/brightness"
-#define GREEN_LED_BRIGHTNESS_FILE "/sys/class/leds/green/brightness"
-#define BLUE_LED_BRIGHTNESS_FILE "/sys/class/leds/blue/brightness"
-
-#define RED_DUTY_PCTS_FILE "/sys/class/leds/red/duty_pcts"
-#define GREEN_DUTY_PCTS_FILE "/sys/class/leds/green/duty_pcts"
-#define BLUE_DUTY_PCTS_FILE "/sys/class/leds/blue/duty_pcts"
-
-#define RED_START_IDX_FILE "/sys/class/leds/red/start_idx"
-#define GREEN_START_IDX_FILE "/sys/class/leds/green/start_idx"
-#define BLUE_START_IDX_FILE "/sys/class/leds/blue/start_idx"
-
-#define RED_PAUSE_LO_FILE "/sys/class/leds/red/pause_lo"
-#define GREEN_PAUSE_LO_FILE "/sys/class/leds/green/pause_lo"
-#define BLUE_PAUSE_LO_FILE "/sys/class/leds/blue/pause_lo"
-
-#define RED_PAUSE_HI_FILE "/sys/class/leds/red/pause_hi"
-#define GREEN_PAUSE_HI_FILE "/sys/class/leds/green/pause_hi"
-#define BLUE_PAUSE_HI_FILE "/sys/class/leds/blue/pause_hi"
-
-#define RED_RAMP_STEP_MS_FILE "/sys/class/leds/red/ramp_step_ms"
-#define GREEN_RAMP_STEP_MS_FILE "/sys/class/leds/green/ramp_step_ms"
-#define BLUE_RAMP_STEP_MS_FILE "/sys/class/leds/blue/ramp_step_ms"
-
-#define RED_BLINK_FILE "/sys/class/leds/red/blink"
-#define GREEN_BLINK_FILE "/sys/class/leds/green/blink"
-#define BLUE_BLINK_FILE "/sys/class/leds/blue/blink"
-
-#define RAMP_SIZE 8
-static int BRIGHTNESS_RAMP[RAMP_SIZE] = { 0, 12, 25, 37, 50, 72, 85, 100 };
-#define RAMP_STEP_DURATION 50
 
 #define DEFAULT_MAX_BRIGHTNESS 255
 int max_brightness;
@@ -145,32 +107,6 @@ static int write_int(char const* path, int value)
     }
 }
 
-static int write_str(char const* path, char* value)
-{
-    int fd;
-    static int already_warned = 0;
-
-    fd = open(path, O_RDWR);
-    if (fd >= 0) {
-        char buffer[1024];
-        int bytes = snprintf(buffer, sizeof(buffer), "%s\n", value);
-        ssize_t amt = write(fd, buffer, (size_t)bytes);
-        close(fd);
-        return amt == -1 ? -errno : 0;
-    } else {
-        if (already_warned == 0) {
-            ALOGE("%s: failed to open %s\n", __func__, path);
-            already_warned = 1;
-        }
-        return -errno;
-    }
-}
-
-static int is_lit(struct light_state_t const* state)
-{
-    return state->color & 0x00ffffff;
-}
-
 static int rgb_to_brightness(struct light_state_t const* state)
 {
     int color = state->color & 0x00ffffff;
@@ -202,200 +138,6 @@ static int set_light_backlight(struct light_device_t* dev,
     return err;
 }
 
-static int set_light_buttons(struct light_device_t *dev,
-        const struct light_state_t *state)
-{
-    int err = 0;
-    int brightness = rgb_to_brightness(state);
-
-    if (!dev)
-        return -1;
-
-    pthread_mutex_lock(&g_lock);
-    err = write_int(BUTTON_BRIGHTNESS_FILE, brightness);
-    pthread_mutex_unlock(&g_lock);
-    return err;
-}
-
-static char* get_scaled_duty_pcts(int brightness)
-{
-    char *buf = malloc(5 * RAMP_SIZE * sizeof(char));
-    char *pad = "";
-    int i = 0;
-
-    memset(buf, 0, 5 * RAMP_SIZE * sizeof(char));
-
-    for (i = 0; i < RAMP_SIZE; i++) {
-        char temp[5] = "";
-        snprintf(temp, sizeof(temp), "%s%d", pad, (BRIGHTNESS_RAMP[i] * brightness / 255));
-        strcat(buf, temp);
-        pad = ",";
-    }
-    ALOGV("%s: brightness=%d, duty=%s\n", __func__, brightness, buf);
-    return buf;
-}
-
-static int set_speaker_light_locked(struct light_device_t* dev,
-        struct light_state_t const* state)
-{
-    int red, green, blue, blink;
-    int onMS, offMS, stepDuration, pauseHi;
-    unsigned int colorRGB;
-    char *duty;
-
-    if (!dev)
-        return -1;
-
-    switch (state->flashMode) {
-    case LIGHT_FLASH_TIMED:
-        onMS = state->flashOnMS;
-        offMS = state->flashOffMS;
-        break;
-    case LIGHT_FLASH_NONE:
-    default:
-        onMS = 0;
-        offMS = 0;
-        break;
-    }
-
-    colorRGB = state->color;
-
-    ALOGV("%s: mode %d, colorRGB=%08X, onMS=%d, offMS=%d\n",
-            __func__, state->flashMode, colorRGB, onMS, offMS);
-
-    red = (colorRGB >> 16) & 0xFF;
-    green = (colorRGB >> 8) & 0xFF;
-    blue = colorRGB & 0xFF;
-    blink = onMS > 0 && offMS > 0;
-
-    // Disable all blinking to start
-    write_int(RED_BLINK_FILE, 0);
-    write_int(GREEN_BLINK_FILE, 0);
-    write_int(BLUE_BLINK_FILE, 0);
-
-    if (blink) {
-        stepDuration = RAMP_STEP_DURATION;
-        pauseHi = onMS - (stepDuration * RAMP_SIZE * 2);
-        if (stepDuration * RAMP_SIZE * 2 > onMS) {
-            stepDuration = onMS / (RAMP_SIZE * 2);
-            pauseHi = 0;
-        }
-
-        // Red
-        write_int(RED_START_IDX_FILE, 0);
-        duty = get_scaled_duty_pcts(red);
-        write_str(RED_DUTY_PCTS_FILE, duty);
-        write_int(RED_PAUSE_LO_FILE, offMS);
-        // The led driver is configured to ramp up then ramp
-        // down the lut. This effectively doubles the ramp duration.
-        write_int(RED_PAUSE_HI_FILE, pauseHi);
-        write_int(RED_RAMP_STEP_MS_FILE, stepDuration);
-        free(duty);
-
-        // Green
-        write_int(GREEN_START_IDX_FILE, RAMP_SIZE);
-        duty = get_scaled_duty_pcts(green);
-        write_str(GREEN_DUTY_PCTS_FILE, duty);
-        write_int(GREEN_PAUSE_LO_FILE, offMS);
-        // The led driver is configured to ramp up then ramp
-        // down the lut. This effectively doubles the ramp duration.
-        write_int(GREEN_PAUSE_HI_FILE, pauseHi);
-        write_int(GREEN_RAMP_STEP_MS_FILE, stepDuration);
-        free(duty);
-
-        // Blue
-        write_int(BLUE_START_IDX_FILE, RAMP_SIZE * 2);
-        duty = get_scaled_duty_pcts(blue);
-        write_str(BLUE_DUTY_PCTS_FILE, duty);
-        write_int(BLUE_PAUSE_LO_FILE, offMS);
-        // The led driver is configured to ramp up then ramp
-        // down the lut. This effectively doubles the ramp duration.
-        write_int(BLUE_PAUSE_HI_FILE, pauseHi);
-        write_int(BLUE_RAMP_STEP_MS_FILE, stepDuration);
-        free(duty);
-
-        // Start the party
-        write_int(RED_BLINK_FILE, red);
-        write_int(GREEN_BLINK_FILE, green);
-        write_int(BLUE_BLINK_FILE, blue);
-    } else {
-        write_int(RED_LED_BRIGHTNESS_FILE, red);
-        write_int(GREEN_LED_BRIGHTNESS_FILE, green);
-        write_int(BLUE_LED_BRIGHTNESS_FILE, blue);
-    }
-
-
-    return 0;
-}
-
-static void handle_speaker_light_locked(struct light_device_t* dev)
-{
-    if (is_lit(&g_attention))
-        set_speaker_light_locked(dev, &g_attention);
-    else if (is_lit(&g_notification))
-        set_speaker_light_locked(dev, &g_notification);
-    else
-        set_speaker_light_locked(dev, &g_battery);
-}
-
-static int set_light_battery(struct light_device_t* dev,
-        struct light_state_t const* state)
-{
-    pthread_mutex_lock(&g_lock);
-    g_battery = *state;
-    handle_speaker_light_locked(dev);
-    pthread_mutex_unlock(&g_lock);
-    return 0;
-}
-
-static int set_light_notifications(struct light_device_t* dev,
-        struct light_state_t const* state)
-{
-    pthread_mutex_lock(&g_lock);
-
-    unsigned int brightness;
-    unsigned int color;
-    unsigned int rgb[3];
-
-    g_notification = *state;
-
-    // If a brightness has been applied by the user
-    brightness = (g_notification.color & 0xFF000000) >> 24;
-    if (brightness > 0 && brightness < 0xFF) {
-
-        // Retrieve each of the RGB colors
-        color = g_notification.color & 0x00FFFFFF;
-        rgb[0] = (color >> 16) & 0xFF;
-        rgb[1] = (color >> 8) & 0xFF;
-        rgb[2] = color & 0xFF;
-
-        // Apply the brightness level
-        if (rgb[0] > 0)
-            rgb[0] = (rgb[0] * brightness) / 0xFF;
-        if (rgb[1] > 0)
-            rgb[1] = (rgb[1] * brightness) / 0xFF;
-        if (rgb[2] > 0)
-            rgb[2] = (rgb[2] * brightness) / 0xFF;
-
-        // Update with the new color
-        g_notification.color = (rgb[0] << 16) + (rgb[1] << 8) + rgb[2];
-    }
-
-    handle_speaker_light_locked(dev);
-    pthread_mutex_unlock(&g_lock);
-    return 0;
-}
-
-static int set_light_attention(struct light_device_t* dev,
-        struct light_state_t const* state)
-{
-    pthread_mutex_lock(&g_lock);
-    g_attention = *state;
-    handle_speaker_light_locked(dev);
-    pthread_mutex_unlock(&g_lock);
-    return 0;
-}
-
 /** Close the lights device */
 static int close_lights(struct light_device_t *dev)
 {
@@ -403,7 +145,6 @@ static int close_lights(struct light_device_t *dev)
         free(dev);
     return 0;
 }
-
 
 /**
  * Module methods
@@ -418,14 +159,6 @@ static int open_lights(const struct hw_module_t* module, char const* name,
 
     if (0 == strcmp(LIGHT_ID_BACKLIGHT, name))
         set_light = set_light_backlight;
-    else if (0 == strcmp(LIGHT_ID_BUTTONS, name))
-        set_light = set_light_buttons;
-    else if (0 == strcmp(LIGHT_ID_BATTERY, name))
-        set_light = set_light_battery;
-    else if (0 == strcmp(LIGHT_ID_NOTIFICATIONS, name))
-        set_light = set_light_notifications;
-    else if (0 == strcmp(LIGHT_ID_ATTENTION, name))
-        set_light = set_light_attention;
     else
         return -EINVAL;
 
