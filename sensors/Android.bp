@@ -1,0 +1,48 @@
+cc_library_static {
+    name: "multihal-oneplus7",
+    vendor: false,
+    srcs: [
+        "multihal.cpp",
+        "SensorEventQueue.cpp",
+        "screenshot.cpp",
+    ],
+    shared_libs: [
+        "liblog",
+        "libcutils",
+        "libutils",
+        "libdl",
+        "libhardware",
+        "libgui",
+        "libui",
+    ],
+    export_include_dirs: ["."],
+    cflags: [
+        "-Wall",
+        "-Werror",
+    ],
+}
+
+cc_library_shared {
+    name: "android.hardware.sensors@1.0-impl.oneplus7",
+    defaults: ["hidl_defaults"],
+    proprietary: false,
+    relative_install_path: "hw",
+    srcs: ["Sensors.cpp"],
+    shared_libs: [
+        "liblog",
+        "libcutils",
+        "libhardware",
+        "libbase",
+        "libutils",
+        "libhidlbase",
+        "libhidltransport",
+        "android.hardware.sensors@1.0",
+        "libgui",
+        "libui",
+    ],
+    static_libs: [
+        "android.hardware.sensors@1.0-convert",
+        "multihal-oneplus7",
+    ],
+    local_include_dirs: ["include/sensors"],
+}

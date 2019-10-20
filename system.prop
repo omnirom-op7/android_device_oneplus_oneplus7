@@ -298,7 +298,7 @@ persist.vendor.overlay.izat.optin=rro
 #Property to enable Mag filter
 persist.vendor.sensors.enable.mag_filter=true
 #ifdef VENDOR_EDIT
-persist.vendor.naruto.light.support=false
+persist.vendor.naruto.light.support=true
 #endif
 
 #ifdef VENDOR_EDIT
@@ -329,6 +329,8 @@ ro.boot.project_name=18821
 ro.vendor.boot.project_name=18821
 persist.vendor.sys.fp.fod.location.X_Y=445,1967
 persist.vendor.sys.fp.fod.size.width_height=190,190
+persist.vendor.sensors.light.location_x=645
+persist.vendor.sensors.light.location_y=205
 persist.vendor.cne.feature=1
 ro.hardware.lights=oneplus7
 

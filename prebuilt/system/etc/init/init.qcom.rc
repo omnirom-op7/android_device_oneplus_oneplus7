@@ -11,6 +11,10 @@ on init
     mount none /dev/null /vendor/overlay/FrameworksResCommon.apk bind
     mount none /dev/null /vendor/etc/init/android.hardware.health@2.0-service.rc bind
 
+    # Sensors
+    mount none /system/lib/hw/android.hardware.sensors@1.0-impl.oneplus7.so /vendor/lib/hw/android.hardware.sensors@1.0-impl.so bind
+    mount none /system/lib64/hw/android.hardware.sensors@1.0-impl.oneplus7.so /vendor/lib64/hw/android.hardware.sensors@1.0-impl.so bind
+
 on boot
     # default country code
     setprop ro.boot.wificountrycode 00

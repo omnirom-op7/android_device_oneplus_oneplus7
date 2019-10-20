@@ -232,6 +232,10 @@ PRODUCT_PACKAGES += \
     vendor.qti.hardware.wifi@1.0 \
     android.hardware.vibrator@1.2-service.oneplus7
 
+# Sensors
+PRODUCT_PACKAGES += \
+    android.hardware.sensors@1.0-impl.oneplus7
+
 # Temporary handling
 #
 # Include config.fs get only if legacy device/qcom/<target>/android_filesystem_config.h

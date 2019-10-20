@@ -30,3 +30,7 @@
 
 
 /system/bin/hw/android\.hardware\.vibrator@1\.2-service\.oneplus7 u:object_r:hal_omni_vibrator_exec:s0
+
+# Sensors
+/system/lib/hw/android.hardware.sensors@1.0-impl.oneplus7.so u:object_r:vendor_file:s0
+/system/lib64/hw/android.hardware.sensors@1.0-impl.oneplus7.so u:object_r:vendor_file:s0
